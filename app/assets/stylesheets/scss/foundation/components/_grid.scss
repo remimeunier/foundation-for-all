@@ -218,8 +218,8 @@ $total-columns: 12 !default;
       @include grid-row;
 
       &.collapse {
-         > .column12,
-         > .columns12 { @include grid-column($collapse:true, $float:false); }
+         > .column,
+         > .columns { @include grid-column($collapse:true, $float:false); }
 
         .row {margin-left:0; margin-right:0;}
       }
@@ -229,11 +229,11 @@ $total-columns: 12 !default;
       }
     }
 
-    .column12,
-    .columns12 { @include grid-column($columns:12); }
+    .column,
+    .columns { @include grid-column($columns:12); }
 
-    [class*="column12"] + [class*="column12"]:last-child { float: $opposite-direction; }
-    [class*="column12"] + [class*="column12"].end { float: $default-float; }
+    [class*="column"] + [class*="column"]:last-child { float: $opposite-direction; }
+    [class*="column"] + [class*="column"].end { float: $default-float; }
 
     @media #{$small-up} {
       @include grid-html-classes($size:small);
@@ -253,7 +253,7 @@ $total-columns: 12 !default;
     }
     @media #{$large-up} {
       @include grid-html-classes($size:large);
-      @for $i from 0 through  - 1 {
+      @for $i from 0 through 12 - 1 {
         .push-#{$i} {
           @include grid-column($push:$i, $collapse:null, $float:false);
         }
@@ -273,64 +273,46 @@ $total-columns: 12 !default;
   }
 }
 
-@include exports("grid5") {
-  @if $include-html-grid-classes {
-    .row5 {
-      @include grid-row;
+@for $j from 5 through 11 {
+  @include exports("grid#{$j}") {
+    @if $include-html-grid-classes {
 
-      &.collapse {
-         > .column5,
-         > .columns5 { @include grid-column($collapse:true, $float:false, $col-number:5); }
 
-        .row5 {margin-left:0; margin-right:0;}
+      @media #{$small-up} {
+        @include grid-html-classes($size:small, $col-number:$j);
       }
 
-      .row5 { @include grid-row($behavior:nest);
-        &.collapse { @include grid-row($behavior:nest-collapse); }
-      }
-    }
-
-    .column5,
-    .columns5 { @include grid-column($columns:5, $col-number:5); }
-
-    [class*="column5"] + [class*="column5"]:last-child { float: $opposite-direction; }
-    [class*="column5"] + [class*="column5"].end { float: $default-float; }
-
-    @media #{$small-up} {
-      @include grid-html-classes($size:small, $col-number:5);
-    }
-
-    @media #{$medium-up} {
-      @include grid-html-classes($size:medium, $col-number:5);
-      // Old push and pull classes
-      @for $i from 0 through 5 - 1 {
-        .push5-#{$i} {
-          @include grid-column($push:$i, $collapse:null, $float:false, $col-number:5);
+      @media #{$medium-up} {
+        @include grid-html-classes($size:medium, $col-number:$j);
+        // Old push and pull classes
+        @for $i from 0 through $j - 1 {
+          .push#{$j}-#{$i} {
+            @include grid-column($push:$i, $collapse:null, $float:false, $col-number:$j);
+          }
+          .pull#{$j}-#{$i} {
+            @include grid-column($pull:$i, $collapse:null, $float:false, $col-number:$j);
+          }
         }
-        .pull5-#{$i} {
-          @include grid-column($pull:$i, $collapse:null, $float:false, $col-number:5);
+      }
+      @media #{$large-up} {
+        @include grid-html-classes($size:large, $col-number:$j);
+        @for $i from 0 through $j - 1 {
+          .push#{$j}-#{$i} {
+            @include grid-column($push:$i, $collapse:null, $float:false, $col-number:$j);
+          }
+          .pull#{$j}-#{$i} {
+            @include grid-column($pull:$i, $collapse:null, $float:false, $col-number:$j);
+          }
         }
       }
     }
-    @media #{$large-up} {
-      @include grid-html-classes($size:large, $col-number:5);
-      @for $i from 0 through 5 - 1 {
-        .push5-#{$i} {
-          @include grid-column($push:$i, $collapse:null, $float:false, $col-number:5);
-        }
-        .pull5-#{$i} {
-          @include grid-column($pull:$i, $collapse:null, $float:false, $col-number:5);
-        }
+    @if $include-xl-html-grid-classes {
+      @media #{$xlarge-up} {
+        @include grid-html-classes($size:xlarge, $col-number:$j);
       }
-    }
-  }
-  @if $include-xl-html-grid-classes {
-    @media #{$xlarge-up} {
-      @include grid-html-classes($size:xlarge, $col-number:5);
-    }
-    @media #{$xxlarge-up} {
-      @include grid-html-classes($size:xxlarge, $col-number:5);
+      @media #{$xxlarge-up} {
+        @include grid-html-classes($size:xxlarge, $col-number:$j);
+      }
     }
   }
 }
-
