@@ -1,0 +1,61 @@
+
+@include exports("grid5") {
+  @if $include-html-grid-classes {
+    .row5 {
+      @include grid-row;
+
+      &.collapse {
+         > .column5,
+         > .columns5 { @include grid-column($collapse:true, $float:false, $col-number:5); }
+
+        .row5 {margin-left:0; margin-right:0;}
+      }
+
+      .row5 { @include grid-row($behavior:nest);
+        &.collapse { @include grid-row($behavior:nest-collapse); }
+      }
+    }
+
+    .column5,
+    .columns5 { @include grid-column($columns:$total-columns, $col-number:5); }
+
+    [class*="column5"] + [class*="column5"]:last-child { float: $opposite-direction; }
+    [class*="column5"] + [class*="column5"].end { float: $default-float; }
+
+    @media #{$small-up} {
+      @include grid-html-classes($size:small, $col-number:5);
+    }
+
+    @media #{$medium-up} {
+      @include grid-html-classes($size:medium, $col-number:5);
+      // Old push and pull classes
+      @for $i from 0 through 5 - 1 {
+        .push5-#{$i} {
+          @include grid-column($push:$i, $collapse:null, $float:false, $col-number:5);
+        }
+        .pull5-#{$i} {
+          @include grid-column($pull:$i, $collapse:null, $float:false, $col-number:5);
+        }
+      }
+    }
+    @media #{$large-up} {
+      @include grid-html-classes($size:large, $col-number:5);
+      @for $i from 0 through 5 - 1 {
+        .push5-#{$i} {
+          @include grid-column($push:$i, $collapse:null, $float:false, $col-number:5);
+        }
+        .pull5-#{$i} {
+          @include grid-column($pull:$i, $collapse:null, $float:false, $col-number:5);
+        }
+      }
+    }
+  }
+  @if $include-xl-html-grid-classes {
+    @media #{$xlarge-up} {
+      @include grid-html-classes($size:xlarge, $col-number:5);
+    }
+    @media #{$xxlarge-up} {
+      @include grid-html-classes($size:xxlarge, $col-number:5);
+    }
+  }
+}
